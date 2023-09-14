@@ -110,4 +110,6 @@ checkUpdateButton.grid(row= 6, column= 3, sticky= tk.EW)
 checkSiteLabel = ttk.Label(mainFrame, text= "*link*Mod Cleaner by Alexein")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.EW)
 
+
+refresh()
 mainWindow.mainloop()

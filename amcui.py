@@ -48,6 +48,7 @@ mainWindow.title("Arma 3 Mod Cleaner")
 mainFrame = ttk.Frame(mainWindow, padding= "20 20 20 5")
 mainFrame.rowconfigure([*range(8)], weight = 1)
 mainFrame.columnconfigure([*range(4)], weight = 1)
+mainFrame.columnconfigure([0, 3], uniform= "x")
 mainFrame.grid()
 
 #modlists
@@ -111,9 +112,9 @@ saveToFileButton.grid(row= 2, column= 0, sticky= tk.EW)
 
 #additional buttons
 checkUpdateButton = ttk.Button(mainFrame, text= "Check for updates", command= checkUpdate())
-checkUpdateButton.grid(row= 6, column= 3, sticky= tk.EW)
+checkUpdateButton.grid(row= 4, column= 3, sticky= tk.S + tk.EW)
 checkSiteLabel = ttk.Label(mainFrame, text= "*link*Mod Cleaner by Alexein")
-checkSiteLabel.grid(row= 7, column= 3, sticky= tk.EW)
+checkSiteLabel.grid(row= 7, column= 3, sticky= tk.S + tk.E)
 
 
 refresh()

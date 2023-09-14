@@ -1,7 +1,7 @@
 import glob
 
 def searchModlists():
-    """find all modlists in selected path or default in no argument"""
+    """find all modlists in selected path or default if no argument"""
     return glob.glob("*.html")
 
 

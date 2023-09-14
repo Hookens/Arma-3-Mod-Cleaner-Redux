@@ -1,2 +1,3 @@
 testenv/
 .vscode/
+__pycache__/

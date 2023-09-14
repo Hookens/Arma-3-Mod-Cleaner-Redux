@@ -16,12 +16,6 @@ def refresh():
 
 htmls, mods, dlcs = refresh()
 
-if len(htmls) == 0:                                 #this should be in amcui
-        print("no modlists found, exiting")
-        amcui.emptyHtmls()
-        exit()
-
-
 #debug
 print(sorted(mods.items()))
 print(dlcs)

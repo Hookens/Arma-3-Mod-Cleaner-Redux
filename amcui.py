@@ -38,6 +38,7 @@ def refresh():
         else: 
             modlists, neededMods, neededDlcs = amcio.readModlists(modlists)
             for html in sorted(modlists): modlistList.insert(tk.END, html.removesuffix(".html"))
+                #progress.set(int(((modlists.index(html)+1)/len(modlists))*100))
             for neededMod in sorted(neededMods.keys()): neededModsList.insert(tk.END, neededMod)
 
 #main window
@@ -77,7 +78,7 @@ neededModsFrame = ttk.Frame(mainFrame, relief= tk.GROOVE, borderwidth= 3)
 neededModsFrame.grid(row=1, column= 1, rowspan= 4, sticky= tk.NSEW, padx= (20, 20))
 neededModsYScroll = ttk.Scrollbar(neededModsFrame, orient= tk.VERTICAL)
 neededModsYScroll.grid(row = 0, column= 1, sticky= tk.NS)
-neededModsList = tk.Listbox(neededModsFrame, activestyle= "none", height = 15, width= 30, listvariable= tk.Variable(value= neededMods), yscrollcommand= neededModsYScroll.set)
+neededModsList = tk.Listbox(neededModsFrame, activestyle= "none", height = 15, width= 40, listvariable= tk.Variable(value= neededMods), yscrollcommand= neededModsYScroll.set)
 neededModsList.grid(row= 0, column= 0)
 neededModsYScroll["command"] = neededModsList.yview
 
@@ -88,7 +89,7 @@ extraModsFrame = ttk.Frame(mainFrame, relief= tk.GROOVE, borderwidth= 3)
 extraModsFrame.grid(row=1, column= 2, rowspan= 4, sticky= tk.NSEW, padx= (0, 20))
 extraModsYScroll = ttk.Scrollbar(extraModsFrame, orient= tk.VERTICAL)
 extraModsYScroll.grid(row = 0, column= 1, sticky= tk.NS)
-extraModsList = tk.Listbox(extraModsFrame, activestyle= "none", height = 15, width= 30, listvariable= tk.Variable(value= extraMods), yscrollcommand= extraModsYScroll.set)
+extraModsList = tk.Listbox(extraModsFrame, activestyle= "none", height = 15, width= 40, listvariable= tk.Variable(value= extraMods), yscrollcommand= extraModsYScroll.set)
 extraModsList.grid(row= 0, column= 0)
 extraModsYScroll["command"] = extraModsList.yview
 

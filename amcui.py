@@ -25,7 +25,7 @@ def checkUpdate():
     pass
 #end debug
 
-def notFound():
+def emptyHtmls():
     messagebox.showerror("Error", "No modlists found")
 
 #main window
@@ -94,4 +94,4 @@ checkUpdateButton.grid(row= 6, column= 3, sticky= tk.EW)
 checkSiteLabel = ttk.Label(mainFrame, text= "*link*Mod Cleaner by Alexein")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.EW)
 
-mainWindow.mainloop()
+#mainWindow.mainloop()

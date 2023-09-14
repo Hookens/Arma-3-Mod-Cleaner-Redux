@@ -35,11 +35,12 @@ def refresh():
         neededModsList.delete(0, tk.END)
         #getextramods and clear
         if len(modlists) == 0: emptyHtmls()
-        else: 
+        else:
             modlists, neededMods, neededDlcs = amcio.readModlists(modlists)
-            for html in sorted(modlists): modlistList.insert(tk.END, html.removesuffix(".html"))
+            for html in sorted(modlists, key= str.lower): modlistList.insert(tk.END, html.removesuffix(".html"))
                 #progress.set(int(((modlists.index(html)+1)/len(modlists))*100))
-            for neededMod in sorted(neededMods.keys()): neededModsList.insert(tk.END, neededMod)
+            for neededMod in sorted(neededMods.keys(), key= str.lower): neededModsList.insert(tk.END, neededMod)
+            #for neededdlc
 
 #main window
 mainWindow = tk.Tk()
@@ -53,10 +54,10 @@ mainFrame.grid()
 modlistLabel = ttk.Label(mainFrame, text= "Modlists")
 modlistLabel.grid(row= 0, column= 0)
 modlistFrame = ttk.Frame(mainFrame, relief= tk.GROOVE, borderwidth= 3)
-modlistFrame.grid(row=1, column= 0, rowspan= 2)
+modlistFrame.grid(row=1, column= 0, rowspan= 2, sticky= tk.N)
 modlistYScroll = ttk.Scrollbar(modlistFrame, orient= tk.VERTICAL)
 modlistYScroll.grid(row = 0, column= 1, sticky= tk.NS)
-modlistList = tk.Listbox(modlistFrame, activestyle= "none", height = 6, width= 25, listvariable= tk.Variable(value= modlists), yscrollcommand= modlistYScroll.set)
+modlistList = tk.Listbox(modlistFrame, activestyle= "none", height = 7, width= 25, listvariable= tk.Variable(value= modlists), yscrollcommand= modlistYScroll.set)
 modlistList.grid(row= 0, column= 0)
 modlistYScroll['command'] = modlistList.yview()
 

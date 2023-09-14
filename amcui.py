@@ -45,8 +45,8 @@ def refresh():
 mainWindow = tk.Tk()
 mainWindow.title("Arma 3 Mod Cleaner")
 mainFrame = ttk.Frame(mainWindow, padding= "20 20 20 5")
-mainFrame.rowconfigure([*range(8)], weight = 1, minsize = 10)
-mainFrame.columnconfigure([*range(4)], weight = 1, minsize = 70)
+mainFrame.rowconfigure([*range(8)], weight = 1)
+mainFrame.columnconfigure([*range(4)], weight = 1)
 mainFrame.grid()
 
 #modlists
@@ -61,9 +61,12 @@ modlistList.grid(row= 0, column= 0)
 modlistYScroll['command'] = modlistList.yview()
 
 #modlists buttons
-refreshModButton = ttk.Button(mainFrame, text= "Refresh", command= refresh)
+modButtonsFrame = ttk.Frame(mainFrame)
+modButtonsFrame.grid(row= 3, column= 0, rowspan= 2, sticky= tk.NSEW)
+modButtonsFrame.columnconfigure(0, weight= 1)
+refreshModButton = ttk.Button(modButtonsFrame, text= "Refresh", command= refresh)
 refreshModButton.grid(row= 3, column= 0, pady= 20, sticky= tk.EW)
-changePathButton = ttk.Button(mainFrame, text= "Change modlist directory", command=changePath())
+changePathButton = ttk.Button(modButtonsFrame, text= "Change modlist directory", command=changePath())
 changePathButton.grid(row= 4, column= 0, sticky= tk.EW)
 
 #progress bar
@@ -96,6 +99,7 @@ extraModsYScroll["command"] = extraModsList.yview
 #extra mods buttons
 extraButtonsFrame = ttk.Frame(mainFrame)
 extraButtonsFrame.grid(row= 1, column= 3, rowspan= 4, sticky= tk.NSEW)
+extraButtonsFrame.columnconfigure(0, weight= 1)
 unsubOneButton = ttk.Button(extraButtonsFrame, text= "  Unsub selected  ", command= unsubOne())
 unsubOneButton.grid(row= 0, column= 0, sticky= tk.EW, pady= (0, 20))
 unsubAllButton = ttk.Button(extraButtonsFrame, text= "Unsub all", command= unsubAll())

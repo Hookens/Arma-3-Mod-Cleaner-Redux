@@ -38,9 +38,9 @@ def refresh():
         else:
             modlists, neededMods, neededDlcs = amcio.readModlists(modlists)
             extraMods = amcio.searchExtraMods(neededMods.values())
-            for html in modlists: modlistList.insert(tk.END, html.removesuffix(".html"))
+            for html in sorted(modlists, key= str.lower): modlistList.insert(tk.END, html.removesuffix(".html"))
                 #progress.set(int(((modlists.index(html)+1)/len(modlists))*100))
-            for neededMod in neededMods.keys(): neededModsList.insert(tk.END, neededMod)
+            for neededMod in sorted(neededMods.keys(), key= str.lower): neededModsList.insert(tk.END, neededMod)
             for extraMod in sorted(extraMods, key = str.lower): extraModsList.insert(tk.END, extraMod)
             #for neededdlc
 

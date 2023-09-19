@@ -22,4 +22,4 @@ def readModlists(htmls):
                     value = modlists[i][j].split('"', 2)[1]
                     if len(value.split("=")) > 1:   mods.update({key: value.split("=")[-1]})
                     else:   dlcs.update({key: value.rsplit("/", 1)[1]})
-    return htmls, mods, dlcs
+    return sorted(htmls, key= str.lower), sorted(mods, key= str.lower), sorted(dlcs, key= str.lower)

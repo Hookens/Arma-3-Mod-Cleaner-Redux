@@ -1,4 +1,5 @@
 import glob
+import os
 
 def searchModlists():
     """find all modlists in selected path or default if no argument"""
@@ -23,3 +24,11 @@ def readModlists(htmls):
                     if len(value.split("=")) > 1:   mods.update({key: value.split("=")[-1]})
                     else:   dlcs.update({key: value.rsplit("/", 1)[1]})
     return sorted(htmls, key= str.lower), sorted(mods, key= str.lower), sorted(dlcs, key= str.lower)
+
+
+def searchExtraMods(mods, path = None):
+    """check mod folder and filter the unused ones"""
+    allMods = glob.glob("**/", root_dir = path).rstrip(os.sep)
+    for mod in mods:
+        allMods.remove(mod)
+    return sorted(allMods, key = str.lower)

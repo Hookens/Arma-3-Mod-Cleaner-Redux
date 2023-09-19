@@ -1,6 +1,7 @@
 import os
+path = ""
 
-def searchModlists(path = "."):
+def searchModlists(path = path):
     """find all modlists in selected path or default if no argument"""
     modlists = []
     with os.scandir(path) as files:
@@ -28,12 +29,18 @@ def readModlists(htmls):
     return mods, dlcs
 
 
-def searchExtraMods(mods = [], path = r".\testenv"):
+def searchExtraMods(mods = [], path = path):
     """check mod folder and filter the unused ones"""
-    allMods = []
+    allModFolders = []
+    allMods = {}
     with os.scandir(path) as files:
         for file in files:
-            allMods.append(file.path.removeprefix(path + os.sep))
+            if file.is_dir():  allModFolders.append(file.path.removeprefix(path + os.sep))
     for mod in mods:
-        if mod in allMods:  allMods.remove(mod)
-    return sorted(allMods, key = str.lower)
+        if mod in allModFolders:  allModFolders.remove(mod)
+    for mod in allModFolders:
+        with open(os.path.join(path, mod + os.sep + "meta.cpp")) as cpp:
+            content = cpp.readlines()
+            modName = content[2]
+            allMods.update({modName.split('"')[1]: mod})
+    return allMods

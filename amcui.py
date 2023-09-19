@@ -36,7 +36,7 @@ def refresh():
         extraModsList.delete(0, tk.END)
         if len(modlists) == 0: emptyHtmls()
         else:
-            modlists, neededMods, neededDlcs = amcio.readModlists(modlists)
+            neededMods, neededDlcs = amcio.readModlists(modlists)
             extraMods = amcio.searchExtraMods(neededMods.values())
             for html in sorted(modlists, key= str.lower): modlistList.insert(tk.END, html.removesuffix(".html"))
                 #progress.set(int(((modlists.index(html)+1)/len(modlists))*100))

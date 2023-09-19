@@ -1,9 +1,12 @@
-import glob
 import os
 
-def searchModlists():
+def searchModlists(path = "."):
     """find all modlists in selected path or default if no argument"""
-    return glob.glob("*.html")
+    modlists = []
+    files = os.scandir(path)
+    for file in files:
+        if file.path.endswith(".html"):  modlists.append(file.path.removeprefix(path + os.sep))
+    return modlists
 
 
 def readModlists(htmls):
@@ -11,8 +14,7 @@ def readModlists(htmls):
     modlists = []
     mods = {}
     dlcs = {}
-    for i in range(len(htmls)):                         #
-        # debug print("found: " + htmls[i].removesuffix(".html"))
+    for i in range(len(htmls)):
         with open(htmls[i]) as html:
             modlists.append(html.readlines())
             for j in range(len(modlists[i])):
@@ -21,14 +23,18 @@ def readModlists(htmls):
                     key = modlists[i][j].removeprefix('          <td data-type="DisplayName">').split("<")[0]
                 elif modlists[i][j].startswith('            <a href="'):
                     value = modlists[i][j].split('"', 2)[1]
-                    if len(value.split("=")) > 1:   mods.update({key: value.split("=")[-1]})
-                    else:   dlcs.update({key: value.rsplit("/", 1)[1]})
-    return htmls, mods, dlcs
+                    if len(value.split("=")) > 1:  mods.update({key: value.split("=")[-1]})
+                    else:  dlcs.update({key: value.rsplit("/", 1)[1]})
+    return mods, dlcs
 
 
-def searchExtraMods(mods, path = None):
+def searchExtraMods(mods = [], path = "."):
     """check mod folder and filter the unused ones"""
-    allMods = glob.glob("**/", root_dir = path).rstrip(os.sep)
+    allMods = []
+    files = os.scandir(path)
+    for file in files:
+        allMods.append(file.path.removeprefix(path + os.sep))
+    files.close()
     for mod in mods:
-        allMods.remove(mod)
+        if mod in allMods:  allMods.remove(mod)
     return sorted(allMods, key = str.lower)

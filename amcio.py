@@ -1,29 +1,32 @@
 import os
 
-path = ""
+listPath = ""
+modPath = ""
 
 def setPath():
     """set work path from settings file or system default"""
-    global path
+    global listPath
+    global modPath
     if os.path.exists("settings.txt"):
         with open("settings.txt") as settingsFile:
             settings = settingsFile.readlines()
-            path = settings[0].split("=", 1)[1]
+            listPath = settings[0].split("=", 1)[1].rstrip()
+            modPath = settings[1].split("=", 1)[1].rstrip()
             #stuff
     else:
-        if os.name == "nt":
-            if os.path.exists("."):  path = "."
-            else:   path = "."
+        if os.name == "nt":                         #need to input correct paths!
+            if os.path.exists("."):  listPath = "."
+            else:   listPath = "."
         elif os.name == "posix":
-            if os.path.exists("."):  path = "."
-            else:   path = "."
+            if os.path.exists("."):  listPath = "."
+            else:   listPath = "."
 
 def searchModlists():
     """find all modlists in selected path"""
     modlists = []
-    with os.scandir(path) as files:
+    with os.scandir(listPath) as files:
         for file in files:
-            if file.path.endswith(".html"):  modlists.append(file.path.removeprefix(path + os.sep))
+            if file.path.endswith(".html"):  modlists.append(file.path.removeprefix(listPath + os.sep))
     return modlists
 
 def readModlists(htmls):
@@ -32,7 +35,7 @@ def readModlists(htmls):
     mods = {}
     dlcs = {}
     for i in range(len(htmls)):
-        with open(os.path.join(path, htmls[i])) as html:
+        with open(os.path.join(listPath, htmls[i])) as html:
             modlists.append(html.readlines())
             for j in range(len(modlists[i])):
                 if j < 89: pass 
@@ -48,13 +51,13 @@ def searchExtraMods(mods):
     """check mod folder and filter the unused ones"""
     allModFolders = []
     allMods = {}
-    with os.scandir(path) as files:
+    with os.scandir(modPath) as files:
         for file in files:
-            if file.is_dir():  allModFolders.append(file.path.removeprefix(path + os.sep))
+            if file.is_dir():  allModFolders.append(file.path.removeprefix(modPath + os.sep))
     for mod in mods:
         if mod in allModFolders:  allModFolders.remove(mod)
     for mod in allModFolders:
-        with open(os.path.join(path, mod + os.sep + "meta.cpp")) as cpp:
+        with open(os.path.join(modPath, mod + os.sep + "meta.cpp")) as cpp:
             content = cpp.readlines()
             modName = content[2]
             allMods.update({modName.split('"')[1]: mod})

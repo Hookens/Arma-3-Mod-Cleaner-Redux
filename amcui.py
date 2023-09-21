@@ -13,7 +13,9 @@ modlists = []
 neededMods = {}
 extraMods = {}
 
-def changePath():
+def changeListPath():
+    pass
+def changeModPath():
     pass
 def saveToFile():
     pass
@@ -69,9 +71,12 @@ modButtonsFrame = ttk.Frame(mainFrame)
 modButtonsFrame.grid(row= 3, column= 0, rowspan= 2, sticky= tk.NSEW)
 modButtonsFrame.columnconfigure(0, weight= 1)
 refreshModButton = ttk.Button(modButtonsFrame, text= "Refresh", command= refresh)
-refreshModButton.grid(row= 3, column= 0, pady= 20, sticky= tk.EW)
-changePathButton = ttk.Button(modButtonsFrame, text= "Change modlist directory", command=changePath())
-changePathButton.grid(row= 4, column= 0, sticky= tk.EW)
+refreshModButton.grid(row= 3, column= 0, pady= (20, 10), sticky= tk.EW)
+changeListPathButton = ttk.Button(modButtonsFrame, text= "Change modlist directory", command=changeListPath)
+changeListPathButton.grid(row= 4, column= 0, pady= (10, 10), sticky= tk.EW)
+changeModPathButton = ttk.Button(modButtonsFrame, text= "Change mod directory", command= changeModPath)
+changeModPathButton.grid(row= 5, column= 0,pady= (10), sticky= tk.EW)
+
 
 #progress bar
 progress = tk.IntVar()
@@ -85,7 +90,7 @@ neededModsFrame = ttk.Frame(mainFrame, relief= tk.GROOVE, borderwidth= 3)
 neededModsFrame.grid(row=1, column= 1, rowspan= 4, sticky= tk.NSEW, padx= (20, 20))
 neededModsYScroll = ttk.Scrollbar(neededModsFrame, orient= tk.VERTICAL)
 neededModsYScroll.grid(row = 0, column= 1, sticky= tk.NS)
-neededModsList = tk.Listbox(neededModsFrame, activestyle= "none", height = 15, width= 40, listvariable= tk.Variable(value= neededMods), yscrollcommand= neededModsYScroll.set)
+neededModsList = tk.Listbox(neededModsFrame, activestyle= "none", height = 16, width= 40, listvariable= tk.Variable(value= neededMods), yscrollcommand= neededModsYScroll.set)
 neededModsList.grid(row= 0, column= 0)
 neededModsYScroll["command"] = neededModsList.yview
 
@@ -96,7 +101,7 @@ extraModsFrame = ttk.Frame(mainFrame, relief= tk.GROOVE, borderwidth= 3)
 extraModsFrame.grid(row=1, column= 2, rowspan= 4, sticky= tk.NSEW, padx= (0, 20))
 extraModsYScroll = ttk.Scrollbar(extraModsFrame, orient= tk.VERTICAL)
 extraModsYScroll.grid(row = 0, column= 1, sticky= tk.NS)
-extraModsList = tk.Listbox(extraModsFrame, activestyle= "none", height = 15, width= 40, listvariable= tk.Variable(value= extraMods), yscrollcommand= extraModsYScroll.set)
+extraModsList = tk.Listbox(extraModsFrame, activestyle= "none", height = 16, width= 40, listvariable= tk.Variable(value= extraMods), yscrollcommand= extraModsYScroll.set)
 extraModsList.grid(row= 0, column= 0)
 extraModsYScroll["command"] = extraModsList.yview
 
@@ -108,7 +113,7 @@ unsubOneButton = ttk.Button(extraButtonsFrame, text= "  Unsub selected  ", comma
 unsubOneButton.grid(row= 0, column= 0, sticky= tk.EW, pady= (0, 20))
 unsubAllButton = ttk.Button(extraButtonsFrame, text= "Unsub all", command= unsubAll())
 unsubAllButton.grid(row= 1, column= 0, sticky= tk.EW, pady= (0, 20))
-saveToFileButton = ttk.Button(extraButtonsFrame, text= "Save to file", command= saveToFile())
+saveToFileButton = ttk.Button(extraButtonsFrame, text= "Whitelist selected", command= saveToFile())
 saveToFileButton.grid(row= 2, column= 0, sticky= tk.EW)
 
 

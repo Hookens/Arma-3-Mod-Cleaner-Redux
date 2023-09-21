@@ -1,14 +1,30 @@
 import os
+
 path = ""
 
-def searchModlists(path = path):
-    """find all modlists in selected path or default if no argument"""
+def setPath():
+    """set work path from settings file or system default"""
+    global path
+    if os.path.exists("settings.txt"):
+        with open("settings.txt") as settingsFile:
+            settings = settingsFile.readlines()
+            path = settings[0].split("=", 1)[1]
+            #stuff
+    else:
+        if os.name == "nt":
+            if os.path.exists("."):  path = "."
+            else:   path = "."
+        elif os.name == "posix":
+            if os.path.exists("."):  path = "."
+            else:   path = "."
+
+def searchModlists():
+    """find all modlists in selected path"""
     modlists = []
     with os.scandir(path) as files:
         for file in files:
             if file.path.endswith(".html"):  modlists.append(file.path.removeprefix(path + os.sep))
     return modlists
-
 
 def readModlists(htmls):
     """read all modlists, put mod and relative number together, same for dlc"""
@@ -16,7 +32,7 @@ def readModlists(htmls):
     mods = {}
     dlcs = {}
     for i in range(len(htmls)):
-        with open(htmls[i]) as html:
+        with open(os.path.join(path, htmls[i])) as html:
             modlists.append(html.readlines())
             for j in range(len(modlists[i])):
                 if j < 89: pass 
@@ -28,8 +44,7 @@ def readModlists(htmls):
                     else:  dlcs.update({key: value.rsplit("/", 1)[1]})
     return mods, dlcs
 
-
-def searchExtraMods(mods = [], path = path):
+def searchExtraMods(mods):
     """check mod folder and filter the unused ones"""
     allModFolders = []
     allMods = {}

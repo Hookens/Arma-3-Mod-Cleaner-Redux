@@ -118,6 +118,6 @@ checkUpdateButton.grid(row= 4, column= 3, sticky= tk.S + tk.EW)
 checkSiteLabel = ttk.Label(mainFrame, text= "*link*Mod Cleaner by Alexein")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.S + tk.E)
 
-
+amcio.setPath()
 refresh()
 mainWindow.mainloop()

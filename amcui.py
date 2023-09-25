@@ -28,10 +28,17 @@ def checkUpdate():
 #end debug
 
 def emptyHtmls():
-    messagebox.showerror("Error", "No modlists found")
+    messagebox.showerror("Error", "No modlists found.")
+
+def modsNotFound():
+    messagebox.showerror("Error", "Mod folder not found, manual setting required.")
 
 def refresh():
         """scan for modlist files and the contained mods"""
+        try:
+            amcio.getSettings()
+        except Exception:
+            modsNotFound()
         modlists = amcio.searchModlists()
         modlistList.delete(0, tk.END)
         neededModsList.delete(0, tk.END)
@@ -123,6 +130,5 @@ checkUpdateButton.grid(row= 4, column= 3, sticky= tk.S + tk.EW)
 checkSiteLabel = ttk.Label(mainFrame, text= "*link*Mod Cleaner by Alexein")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.S + tk.E)
 
-amcio.setPath()
 refresh()
 mainWindow.mainloop()

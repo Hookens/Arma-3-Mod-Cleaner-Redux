@@ -3,7 +3,7 @@ import os
 listPath = ""
 modPath = ""
 
-def setPath():
+def getSettings():
     """set work path from settings file or system default"""
     global listPath
     global modPath
@@ -16,10 +16,12 @@ def setPath():
     else:
         if os.name == "nt":                         #need to input correct paths!
             if os.path.exists("."):  listPath = "."
-            else:   listPath = "."
+            if os.path.exists("k."):  modPath = "."
+            else:   raise FileNotFoundError("modPath")
         elif os.name == "posix":
             if os.path.exists("."):  listPath = "."
-            else:   listPath = "."
+            if os.path.exists("."):  modPath = "."
+            else:   raise FileNotFoundError("modPath")
 
 def searchModlists():
     """find all modlists in selected path"""
@@ -57,8 +59,11 @@ def searchExtraMods(mods):
     for mod in mods:
         if mod in allModFolders:  allModFolders.remove(mod)
     for mod in allModFolders:
-        with open(os.path.join(modPath, mod + os.sep + "meta.cpp")) as cpp:
-            content = cpp.readlines()
-            modName = content[2]
-            allMods.update({modName.split('"')[1]: mod})
+        try:
+            with open(os.path.join(modPath, mod + os.sep + "meta.cpp")) as cpp:
+                content = cpp.readlines()
+                modName = content[2]
+                allMods.update({modName.split('"')[1]: mod})
+        except Exception:
+            allMods.update({"*INVALID* " + mod: mod})
     return allMods

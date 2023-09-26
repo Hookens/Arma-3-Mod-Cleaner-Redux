@@ -16,12 +16,21 @@ def getSettings():
     else:
         if os.name == "nt":                         #need to input correct paths!
             if os.path.exists("."):  listPath = "."
-            if os.path.exists("k."):  modPath = "."
+            if os.path.exists("."):  modPath = "."
             else:   raise FileNotFoundError("modPath")
         elif os.name == "posix":
             if os.path.exists("."):  listPath = "."
             if os.path.exists("."):  modPath = "."
             else:   raise FileNotFoundError("modPath")
+
+def recordSettings(newListPath = "", newModPath = ""):
+    global listPath
+    global modPath
+    if newListPath != "":   listPath = newListPath
+    if newModPath != "":   modPath = newModPath    
+    with open("settings.txt", "w") as settingsFile:
+        settingsFile.write("listPath=" + listPath + "\n")
+        settingsFile.write("modPath=" + modPath + "\n")
 
 def searchModlists():
     """find all modlists in selected path"""
@@ -36,7 +45,6 @@ def readModlists(htmls):
     modlists = []
     mods = {}
     dlcs = {}
-    
     for i in range(len(htmls)):
         with open(os.path.join(listPath, htmls[i])) as html:
             modlists.append(html.readlines())
@@ -64,9 +72,10 @@ def searchExtraMods(mods, whitelist):
     """check mod folder and filter the unused ones"""
     allModFolders = []
     allMods = {}
-    with os.scandir(modPath) as files:
-        for file in files:
-            if file.is_dir():  allModFolders.append(file.path.removeprefix(modPath + os.sep))
+    if os.path.exists(modPath):
+        with os.scandir(modPath) as files:
+            for file in files:
+                if file.is_dir():  allModFolders.append(file.path.removeprefix(modPath + os.sep))
     for mod in mods:
         if mod in allModFolders:  allModFolders.remove(mod)
     for mod in whitelist:

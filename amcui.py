@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import filedialog
 import amcio
 
 from os import name
@@ -15,9 +16,14 @@ extraMods = {}
 whitelist = {}
 
 def changeListPath():
-    pass
+    listPath = filedialog.askdirectory()
+    amcio.recordSettings(newListPath = listPath)
+    refresh()
+    
 def changeModPath():
-    pass
+    modPath = filedialog.askdirectory()
+    amcio.recordSettings(newModPath = modPath)
+    refresh()
 
 def saveToWhitelist():
     for index in extraModsList.curselection():

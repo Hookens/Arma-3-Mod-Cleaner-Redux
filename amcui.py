@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import filedialog
+import webbrowser
 import amcio
 
 from os import name
@@ -43,7 +44,7 @@ def unsubOne():
 def unsubAll():
     pass
 def checkUpdate():
-    pass
+    webbrowser.open_new_tab("https://gitlab.com/Alexein/arma-3-mod-cleaner/-/releases")
 #end debug
 
 def emptyHtmls():
@@ -154,7 +155,7 @@ removeFromFileButton.grid(row= 3, column= 0, sticky= tk.EW)
 #additional buttons
 checkUpdateButton = ttk.Button(mainFrame, text= "Check for updates", command= checkUpdate)
 checkUpdateButton.grid(row= 4, column= 3, sticky= tk.S + tk.EW)
-checkSiteLabel = ttk.Label(mainFrame, text= "*link*Mod Cleaner by Alexein")
+checkSiteLabel = ttk.Label(mainFrame, text= "Mod Cleaner by Alexein v1.0")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.S + tk.E)
 
 refresh()

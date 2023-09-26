@@ -10,7 +10,6 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
@@ -95,6 +94,7 @@ def refresh():
 #main window
 mainWindow = tk.Tk()
 mainWindow.title("Arma 3 Mod Cleaner")
+mainWindow.iconbitmap("amc_logo.ico")
 mainFrame = ttk.Frame(mainWindow, padding= "20 20 20 5")
 mainFrame.rowconfigure([*range(8)], weight = 1)
 mainFrame.columnconfigure([*range(4)], weight = 1)
@@ -122,7 +122,6 @@ changeListPathButton = ttk.Button(modButtonsFrame, text= "Change modlist directo
 changeListPathButton.grid(row= 4, column= 0, pady= (10, 10), sticky= tk.EW)
 changeModPathButton = ttk.Button(modButtonsFrame, text= "Change mod directory", command= changeModPath)
 changeModPathButton.grid(row= 5, column= 0,pady= (10), sticky= tk.EW)
-
 
 #progress bar
 progress = tk.IntVar()

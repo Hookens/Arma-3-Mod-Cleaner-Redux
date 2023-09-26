@@ -61,7 +61,7 @@ def refresh():
             for neededMod in sorted(neededMods.keys(), key= str.lower): neededModsList.insert(tk.END, neededMod)
             if len(whitelist.keys()) > 0:
                 neededModsList.insert(tk.END, "")
-                neededModsList.insert(tk.END, "*Whitelist*")
+                neededModsList.insert(tk.END, "                               *Whitelist*")
                 for whitelistedMod in sorted(whitelist.keys()): neededModsList.insert(tk.END, whitelistedMod)
             for extraMod in sorted(extraMods.keys(), key = str.lower): extraModsList.insert(tk.END, extraMod)
             #for neededdlc
@@ -131,7 +131,7 @@ extraButtonsFrame.grid(row= 1, column= 3, rowspan= 4, sticky= tk.NSEW)
 extraButtonsFrame.columnconfigure(0, weight= 1)
 unsubOneButton = ttk.Button(extraButtonsFrame, text= "  Unsub selected  ", command= unsubOne)
 unsubOneButton.grid(row= 0, column= 0, sticky= tk.EW, pady= (0, 20))
-unsubAllButton = ttk.Button(extraButtonsFrame, text= "Unsub all", command= unsubAll())
+unsubAllButton = ttk.Button(extraButtonsFrame, text= "Unsub all", command= unsubAll)
 unsubAllButton.grid(row= 1, column= 0, sticky= tk.EW, pady= (0, 20))
 saveToFileButton = ttk.Button(extraButtonsFrame, text= "Whitelist selected", command= saveToWhitelist)
 saveToFileButton.grid(row= 2, column= 0, sticky= tk.EW, pady= (0, 20))
@@ -140,7 +140,7 @@ removeFromFileButton.grid(row= 3, column= 0, sticky= tk.EW)
 
 
 #additional buttons
-checkUpdateButton = ttk.Button(mainFrame, text= "Check for updates", command= checkUpdate())
+checkUpdateButton = ttk.Button(mainFrame, text= "Check for updates", command= checkUpdate)
 checkUpdateButton.grid(row= 4, column= 3, sticky= tk.S + tk.EW)
 checkSiteLabel = ttk.Label(mainFrame, text= "*link*Mod Cleaner by Alexein")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.S + tk.E)

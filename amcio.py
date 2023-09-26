@@ -79,7 +79,6 @@ def searchExtraMods(mods, whitelist):
 
 def saveToWhitelist(whitelist):#adapt to dict
     """add mods to a whitelist"""
-    print("saving amcio " + str(whitelist))
     with open("whitelist.txt", "a") as whiteFile:
         for mod in whitelist.keys():
             whiteFile.writelines(mod + "/" + whitelist.get(mod) + "\n")

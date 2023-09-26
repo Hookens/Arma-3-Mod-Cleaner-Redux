@@ -167,7 +167,7 @@ removeFromFileButton.grid(row= 3, column= 0, sticky= tk.EW)
 #additional buttons
 checkUpdateButton = ttk.Button(mainFrame, text= "Check for updates", command= checkUpdate)
 checkUpdateButton.grid(row= 4, column= 3, sticky= tk.S + tk.EW)
-checkSiteLabel = ttk.Label(mainFrame, text= "Mod Cleaner by Alexein v0.9")
+checkSiteLabel = ttk.Label(mainFrame, text= "Mod Cleaner by Alexein v0.9.0")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.S + tk.E)
 
 refresh()

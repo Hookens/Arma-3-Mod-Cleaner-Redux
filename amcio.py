@@ -36,8 +36,7 @@ def readModlists(htmls):
     modlists = []
     mods = {}
     dlcs = {}
-    whitelistL = []
-    whitelist = {}
+    
     for i in range(len(htmls)):
         with open(os.path.join(listPath, htmls[i])) as html:
             modlists.append(html.readlines())
@@ -49,12 +48,17 @@ def readModlists(htmls):
                     value = modlists[i][j].split('"', 2)[1]
                     if len(value.split("=")) > 1:  mods.update({key: value.split("=")[-1]})
                     else:  dlcs.update({key: value.rsplit("/", 1)[1]})
+    return mods, dlcs
+
+def readWhitelist():
+    whitelistL = []
+    whitelist = {}
     if os.path.exists("whitelist.txt"):
         with open("whitelist.txt") as whiteFile: 
             whitelistL = whiteFile.readlines()
             for i in range(len(whitelistL)):   
                 whitelist.update({whitelistL[i].split("/")[0]: whitelistL[i].split("/")[1].rstrip()}) 
-    return mods, dlcs, whitelist
+    return whitelist
 
 def searchExtraMods(mods, whitelist):
     """check mod folder and filter the unused ones"""
@@ -77,8 +81,17 @@ def searchExtraMods(mods, whitelist):
             allMods.update({"*INVALID* " + mod: mod})
     return allMods
 
-def saveToWhitelist(whitelist):#adapt to dict
+def saveToWhitelist(whitelist):
     """add mods to a whitelist"""
     with open("whitelist.txt", "a") as whiteFile:
+        for mod in whitelist.keys():
+            whiteFile.writelines(mod + "/" + whitelist.get(mod) + "\n")
+
+def removeFromWhitelist(removeList):
+    """remove mods from whitelist"""
+    whitelist = readWhitelist()
+    with open("whitelist.txt", "w") as whiteFile:
+        for mod in removeList:
+            if mod in whitelist:   whitelist.pop(mod)
         for mod in whitelist.keys():
             whiteFile.writelines(mod + "/" + whitelist.get(mod) + "\n")

@@ -18,14 +18,19 @@ def changeListPath():
     pass
 def changeModPath():
     pass
+
 def saveToWhitelist():
     for index in extraModsList.curselection():
         whitelist.update({extraModsList.get(index): extraMods.get(extraModsList.get(index))})
     amcio.saveToWhitelist(whitelist)
     refresh()
 
-def removeFromFile():
-    pass
+def removeFromWhitelist():
+    removeList = []
+    for index in neededModsList.curselection():
+        removeList.append(neededModsList.get(index))
+    amcio.removeFromWhitelist(removeList)
+    refresh()    
 
 def unsubOne():
     pass
@@ -54,7 +59,8 @@ def refresh():
         extraModsList.delete(0, tk.END)
         if len(modlists) == 0: emptyHtmls()
         else:
-            neededMods, neededDlcs, whitelist = amcio.readModlists(modlists)
+            neededMods, neededDlcs = amcio.readModlists(modlists)
+            whitelist = amcio.readWhitelist()
             extraMods = amcio.searchExtraMods(neededMods.values(), whitelist.values())
             for html in sorted(modlists, key= str.lower): modlistList.insert(tk.END, html.removesuffix(".html"))
                 #progress.set(int(((modlists.index(html)+1)/len(modlists))*100))
@@ -110,7 +116,7 @@ neededModsFrame = ttk.Frame(mainFrame, relief= tk.GROOVE, borderwidth= 3)
 neededModsFrame.grid(row=1, column= 1, rowspan= 4, sticky= tk.NSEW, padx= (20, 20))
 neededModsYScroll = ttk.Scrollbar(neededModsFrame, orient= tk.VERTICAL)
 neededModsYScroll.grid(row = 0, column= 1, sticky= tk.NS)
-neededModsList = tk.Listbox(neededModsFrame, activestyle= "none", height = 16, width= 40, listvariable= tk.Variable(value= neededMods), yscrollcommand= neededModsYScroll.set)
+neededModsList = tk.Listbox(neededModsFrame, activestyle= "none", height = 16, width= 40, listvariable= tk.Variable(value= neededMods), yscrollcommand= neededModsYScroll.set, exportselection= 0, selectmode= tk.MULTIPLE)
 neededModsList.grid(row= 0, column= 0)
 neededModsYScroll["command"] = neededModsList.yview
 
@@ -135,7 +141,7 @@ unsubAllButton = ttk.Button(extraButtonsFrame, text= "Unsub all", command= unsub
 unsubAllButton.grid(row= 1, column= 0, sticky= tk.EW, pady= (0, 20))
 saveToFileButton = ttk.Button(extraButtonsFrame, text= "Whitelist selected", command= saveToWhitelist)
 saveToFileButton.grid(row= 2, column= 0, sticky= tk.EW, pady= (0, 20))
-removeFromFileButton = ttk.Button(extraButtonsFrame, text= "Remove from whitelist", command= removeFromFile)
+removeFromFileButton = ttk.Button(extraButtonsFrame, text= "Remove from whitelist", command= removeFromWhitelist)
 removeFromFileButton.grid(row= 3, column= 0, sticky= tk.EW)
 
 

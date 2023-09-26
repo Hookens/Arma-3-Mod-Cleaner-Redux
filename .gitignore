@@ -2,4 +2,4 @@ testenv/
 .vscode/
 __pycache__/
 *.html
-settings.txt
+*.txt

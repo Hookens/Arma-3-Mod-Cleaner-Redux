@@ -36,6 +36,8 @@ def readModlists(htmls):
     modlists = []
     mods = {}
     dlcs = {}
+    whitelistL = []
+    whitelist = {}
     for i in range(len(htmls)):
         with open(os.path.join(listPath, htmls[i])) as html:
             modlists.append(html.readlines())
@@ -47,9 +49,14 @@ def readModlists(htmls):
                     value = modlists[i][j].split('"', 2)[1]
                     if len(value.split("=")) > 1:  mods.update({key: value.split("=")[-1]})
                     else:  dlcs.update({key: value.rsplit("/", 1)[1]})
-    return mods, dlcs
+    if os.path.exists("whitelist.txt"):
+        with open("whitelist.txt") as whiteFile: 
+            whitelistL = whiteFile.readlines()
+            for i in range(len(whitelistL)):   
+                whitelist.update({whitelistL[i].split("/")[0]: whitelistL[i].split("/")[1].rstrip()}) 
+    return mods, dlcs, whitelist
 
-def searchExtraMods(mods):
+def searchExtraMods(mods, whitelist):
     """check mod folder and filter the unused ones"""
     allModFolders = []
     allMods = {}
@@ -57,6 +64,8 @@ def searchExtraMods(mods):
         for file in files:
             if file.is_dir():  allModFolders.append(file.path.removeprefix(modPath + os.sep))
     for mod in mods:
+        if mod in allModFolders:  allModFolders.remove(mod)
+    for mod in whitelist:
         if mod in allModFolders:  allModFolders.remove(mod)
     for mod in allModFolders:
         try:
@@ -67,3 +76,10 @@ def searchExtraMods(mods):
         except Exception:
             allMods.update({"*INVALID* " + mod: mod})
     return allMods
+
+def saveToWhitelist(whitelist):#adapt to dict
+    """add mods to a whitelist"""
+    print("saving amcio " + str(whitelist))
+    with open("whitelist.txt", "a") as whiteFile:
+        for mod in whitelist.keys():
+            whiteFile.writelines(mod + "/" + whitelist.get(mod) + "\n")

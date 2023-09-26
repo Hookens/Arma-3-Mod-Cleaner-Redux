@@ -8,7 +8,7 @@ The program checks in the default directories but different ones can also be spe
 
 ## Installation
 
-Download [this repo](https://gitlab.com/Alexein/arma-3-mod-cleaner/-/releases) and unpack it in a folder.
+Download [this repo](https://gitlab.com/Alexein/arma-3-mod-cleaner/-/releases) and unpack it in a folder.  
 Some Linux distributions lack the tk library so if you encounter problems running it install "tk" through your package manager.
 
 ## Visuals

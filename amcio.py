@@ -75,7 +75,7 @@ def readModlists(htmls):
                     if j < 4:   pass
                     elif  modlists[i][j].startswith('    <id>steam:'):
                         keys.append(modlists[i][j].removeprefix("    <id>steam:").split("<")[0])
-    mods.update(searchExtraMods(keys, [], searchNeeded = True))
+    mods.update(searchMods(keys, [], searchNeeded = True))
     return mods, dlcs
 
 def readWhitelist():
@@ -88,8 +88,8 @@ def readWhitelist():
                 whitelist.update({whitelistL[i].split("/")[0]: whitelistL[i].split("/")[1].rstrip()}) 
     return whitelist
 
-def searchExtraMods(mods, whitelist, searchNeeded = False):
-    """check mod folder and filter the unused ones"""
+def searchMods(mods, whitelist, searchNeeded = False):
+    """check mod folder and return needed or extra mods"""
     allModFolders = []
     allMods = {}
     if os.path.exists(modPath):
@@ -100,16 +100,8 @@ def searchExtraMods(mods, whitelist, searchNeeded = False):
         for mod in mods:
             if mod in allModFolders:  allModFolders.remove(mod)
     else:
-        for mod in mods:
-            if mod in allModFolders:
-                try:
-                    with open(os.path.join(modPath, mod + os.sep + "meta.cpp")) as cpp:
-                        content = cpp.readlines()
-                        modName = content[2]
-                        allMods.update({modName.split('"')[1]: mod})
-                except Exception:
-                    pass
-        return allMods
+        for mod in allModFolders:
+            if mod not in mods:   allModFolders.remove(mod)
     for mod in whitelist:
         if mod in allModFolders:  allModFolders.remove(mod)
     for mod in allModFolders:
@@ -119,7 +111,8 @@ def searchExtraMods(mods, whitelist, searchNeeded = False):
                 modName = content[2]
                 allMods.update({modName.split('"')[1]: mod})
         except Exception:
-            allMods.update({"*INVALID* " + mod: mod})
+            if searchNeeded:   pass
+            else:   allMods.update({"*INVALID* " + mod: mod})
     return allMods
 
 def saveToWhitelist(whitelist):

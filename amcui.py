@@ -47,7 +47,7 @@ def saveToWhitelist():
 def removeFromWhitelist():
     removeList = []
     for index in neededModsList.curselection():
-        removeList.append(neededModsList.get(index))
+        removeList.append(neededModsList.get(index).removeprefix("*"))
     amcio.removeFromWhitelist(removeList)
     refresh()    
 
@@ -57,6 +57,19 @@ def unsubAll():
     pass
 def checkUpdate():
     webbrowser.open_new_tab("https://gitlab.com/Alexein/arma-3-mod-cleaner/-/releases")
+
+def neededSelect(event = None):
+    if len(neededModsList.curselection()) > 0:   removeFromFileButton.config(state= tk.NORMAL)
+    else:   removeFromFileButton.config(state= tk.DISABLED)
+
+def extraSelect(event = None):
+    if len(extraModsList.curselection()) > 0:
+        unsubOneButton.config(state= tk.NORMAL)
+        saveToFileButton.config(state= tk.NORMAL)
+    else:
+        unsubOneButton.config(state= tk.DISABLED)
+        saveToFileButton.config(state= tk.DISABLED)
+
 #end debug
 
 def emptyHtmls():
@@ -76,6 +89,8 @@ def refresh():
         modlistList.delete(0, tk.END)
         neededModsList.delete(0, tk.END)
         extraModsList.delete(0, tk.END)
+        extraSelect()
+        neededSelect()
         if len(modlists) == 0: emptyHtmls()
         else:
             neededMods, neededDlcs = amcio.readModlists(modlists)
@@ -83,11 +98,14 @@ def refresh():
             extraMods = amcio.searchMods(neededMods.values(), whitelist.values())
             for html in sorted(modlists, key= str.lower): modlistList.insert(tk.END, html.removesuffix(".html").removesuffix(".preset2"))
                 #progress.set(int(((modlists.index(html)+1)/len(modlists))*100))
-            for neededMod in sorted(neededMods.keys(), key= str.lower): neededModsList.insert(tk.END, neededMod)
+            for neededMod in sorted(neededMods.keys(), key= str.lower):
+                if neededMod in whitelist.keys():   star = "*"
+                else: star = ""
+                neededModsList.insert(tk.END, star + neededMod)
             if len(whitelist.keys()) > 0:
                 neededModsList.insert(tk.END, "")
                 neededModsList.insert(tk.END, "                               *Whitelist*")
-                for whitelistedMod in sorted(whitelist.keys()): neededModsList.insert(tk.END, whitelistedMod)
+                for whitelistedMod in sorted(whitelist.keys()): neededModsList.insert(tk.END, "*" + whitelistedMod)
             for extraMod in sorted(extraMods.keys(), key = str.lower): extraModsList.insert(tk.END, extraMod)
             #for neededdlc
 
@@ -154,15 +172,18 @@ extraModsYScroll["command"] = extraModsList.yview
 extraButtonsFrame = ttk.Frame(mainFrame)
 extraButtonsFrame.grid(row= 1, column= 3, rowspan= 4, sticky= tk.NSEW)
 extraButtonsFrame.columnconfigure(0, weight= 1)
-unsubOneButton = ttk.Button(extraButtonsFrame, text= "  Unsub selected  ", command= unsubOne)
+unsubOneButton = ttk.Button(extraButtonsFrame, text= "  Unsub extra mods ", command= unsubOne, state= tk.DISABLED)
 unsubOneButton.grid(row= 0, column= 0, sticky= tk.EW, pady= (0, 20))
-unsubAllButton = ttk.Button(extraButtonsFrame, text= "Unsub all", command= unsubAll)
+unsubAllButton = ttk.Button(extraButtonsFrame, text= "Unsub all extra mods", command= unsubAll)
 unsubAllButton.grid(row= 1, column= 0, sticky= tk.EW, pady= (0, 20))
-saveToFileButton = ttk.Button(extraButtonsFrame, text= "Whitelist selected", command= saveToWhitelist)
+saveToFileButton = ttk.Button(extraButtonsFrame, text= "Whitelist extra mods", command= saveToWhitelist, state= tk.DISABLED)
 saveToFileButton.grid(row= 2, column= 0, sticky= tk.EW, pady= (0, 20))
-removeFromFileButton = ttk.Button(extraButtonsFrame, text= "Remove from whitelist", command= removeFromWhitelist)
+removeFromFileButton = ttk.Button(extraButtonsFrame, text= "Remove from whitelist", command= removeFromWhitelist, state= tk.DISABLED)
 removeFromFileButton.grid(row= 3, column= 0, sticky= tk.EW)
 
+#mods buttons events
+neededModsList.bind("<<ListboxSelect>>", neededSelect)
+extraModsList.bind("<<ListboxSelect>>", extraSelect)
 
 #additional buttons
 checkUpdateButton = ttk.Button(mainFrame, text= "Check for updates", command= checkUpdate)

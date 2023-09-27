@@ -113,6 +113,8 @@ def refresh():
 mainWindow = tk.Tk()
 mainWindow.title("Arma 3 Mod Cleaner")
 mainWindow.iconbitmap("amc_logo.ico")
+mainWindow.rowconfigure(0, weight= 1)
+mainWindow.columnconfigure(0, weight= 1)
 mainFrame = ttk.Frame(mainWindow, padding= "20 20 20 5")
 mainFrame.rowconfigure([*range(8)], weight = 1)
 mainFrame.columnconfigure([*range(4)], weight = 1)
@@ -188,7 +190,7 @@ extraModsList.bind("<<ListboxSelect>>", extraSelect)
 #additional buttons
 checkUpdateButton = ttk.Button(mainFrame, text= "Check for updates", command= checkUpdate)
 checkUpdateButton.grid(row= 4, column= 3, sticky= tk.S + tk.EW)
-checkSiteLabel = ttk.Label(mainFrame, text= "Mod Cleaner by Alexein v0.9.0")
+checkSiteLabel = ttk.Label(mainFrame, text= "Arma 3 Mod Cleaner by Alexein v0.9.1")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.S + tk.E)
 
 refresh()

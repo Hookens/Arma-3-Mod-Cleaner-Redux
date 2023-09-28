@@ -1,2 +1,8 @@
+v0.9.1
+    add parsing of .preset2 modlists
+    whitelisted mods are now marked with a *
+    function buttons are now greyed out if no valid mods are selected
+    brighten icon to be more visible in dark mode
+
 v0.9
     initial beta release without steam integration

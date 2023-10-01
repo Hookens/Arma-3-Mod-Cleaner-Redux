@@ -11,7 +11,3 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import amcui
-import amcio
-
-#debug
-print("Arma mod cleaner by Alex v1.0\n")

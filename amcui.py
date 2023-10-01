@@ -128,7 +128,7 @@ modlistFrame = ttk.Frame(mainFrame, relief= tk.GROOVE, borderwidth= 3)
 modlistFrame.grid(row=1, column= 0, rowspan= 2, sticky= tk.N)
 modlistYScroll = ttk.Scrollbar(modlistFrame, orient= tk.VERTICAL)
 modlistYScroll.grid(row = 0, column= 1, sticky= tk.NS)
-modlistList = tk.Listbox(modlistFrame, activestyle= "none", height = 7, width= 25, listvariable= tk.Variable(value= modlists), yscrollcommand= modlistYScroll.set, exportselection= 0)
+modlistList = tk.Listbox(modlistFrame, activestyle= "none", height = 7, width= 28, listvariable= tk.Variable(value= modlists), yscrollcommand= modlistYScroll.set, exportselection= 0)
 modlistList.grid(row= 0, column= 0)
 modlistYScroll['command'] = modlistList.yview()
 

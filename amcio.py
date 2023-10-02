@@ -22,27 +22,48 @@ def getSettings():
     if os.path.exists("settings.txt"):
         with open("settings.txt") as settingsFile:
             settings = settingsFile.readlines()
+            if len(settings) < 2:                   #corrupted settings file
+                resetSettings()
+                return
             listPath = settings[0].split("=", 1)[1].rstrip()
             modPath = settings[1].split("=", 1)[1].rstrip()
+            if not os.path.exists(listPath) or not os.path.exists(modPath): resetSettings()    
             #stuff
     else:
-        if os.name == "nt":                         #need to input correct paths!
-            if os.path.exists("."):  listPath = "."
-            if os.path.exists("."):  modPath = "."
-            else:   raise FileNotFoundError("modPath")
-        elif os.name == "posix":
-            if os.path.exists("."):  listPath = "."
-            if os.path.exists("."):  modPath = "."
-            else:   raise FileNotFoundError("modPath")
+        resetSettings()
+
+def resetSettings():
+    """system default paths"""
+    global listPath
+    global modPath
+    home = os.path.expanduser("~")
+    if os.name == "nt":                         #need to input correct paths!
+        lp = os.path.join(home, "AppData\Local\Arma 3 Launcher\Presets")
+        if os.path.exists(lp):  listPath = lp
+        mp = r"C:\Program Files (x86)\Steam\steamapps\workshop\content\107410"
+        if os.path.exists(mp):  modPath = mp
+        else:   raise FileNotFoundError("modPath")
+    elif os.name == "posix":
+        lp = os.path.join(home,".steam/steam/steamapps/compatdata/107410/pfx/drive_c/users/steamuser/AppData/Local/Arma 3 Launcher/Presets")
+        if os.path.exists(lp):  listPath = lp
+        mp = os.path.join(home,".steam/steam/steamapps/workshop/content/107410")
+        if os.path.exists(mp):  modPath = mp
+        else:   raise FileNotFoundError("modPath")
 
 def recordSettings(newListPath = "", newModPath = ""):
     global listPath
     global modPath
     if newListPath != "":   listPath = newListPath
-    if newModPath != "":   modPath = newModPath    
-    with open("settings.txt", "w") as settingsFile:
-        settingsFile.write("listPath=" + listPath + "\n")
-        settingsFile.write("modPath=" + modPath + "\n")
+    if newModPath != "":   modPath = newModPath
+    try:
+        with open("settings.txt") as settingsFile:
+            oldSettings = settingsFile.readlines()
+        with open("settings.txt", "w") as settingsFile:
+            settingsFile.write("listPath=" + listPath + "\n")
+            settingsFile.write("modPath=" + modPath )
+    except Exception:
+        with open("settings.txt", "w") as settingsFile:
+            settingsFile.writelines(oldSettings)
 
 def searchModlists():
     """find all modlists in selected path"""

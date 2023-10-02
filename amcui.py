@@ -81,11 +81,12 @@ def modsNotFound():
 def refresh():
         """scan for modlist files and the contained mods"""
         global extraMods
+        global modlists
         try:
             amcio.getSettings()
+            modlists = amcio.searchModlists()
         except Exception:
             modsNotFound()
-        modlists = amcio.searchModlists()
         modlistList.delete(0, tk.END)
         neededModsList.delete(0, tk.END)
         extraModsList.delete(0, tk.END)
@@ -112,7 +113,8 @@ def refresh():
 #main window
 mainWindow = tk.Tk()
 mainWindow.title("Arma 3 Mod Cleaner")
-mainWindow.iconbitmap("amc_logo.ico")
+icon = tk.PhotoImage(file = "amc_logo.gif")
+mainWindow.tk.call("wm", "iconphoto", mainWindow._w, icon)
 mainWindow.rowconfigure(0, weight= 1)
 mainWindow.columnconfigure(0, weight= 1)
 mainFrame = ttk.Frame(mainWindow, padding= "20 20 20 5")

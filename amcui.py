@@ -22,7 +22,6 @@ if name == "nt":                                 #set for high dpi if run on win
     from ctypes import windll
     windll.shcore.SetProcessDpiAwareness(1)
 
-#debug
 modlists = []
 neededMods = {}
 extraMods = {}
@@ -52,9 +51,20 @@ def removeFromWhitelist():
     refresh()    
 
 def unsubOne():
-    pass
+    messagebox.showerror("Error", "Not yet implemented")
+
 def unsubAll():
-    pass
+    messagebox.showerror("Error", "Not yet implemented")
+
+def showExtra():
+    global extraMods
+    extraModsList.delete(0, tk.END)
+    for extraMod in sorted(extraMods.keys(), key = str.lower):
+        if extraMod.startswith("*"):
+            if showInvalidVar.get():
+                extraModsList.insert(tk.END, extraMod)
+        else:   extraModsList.insert(tk.END, extraMod)
+
 def checkUpdate():
     webbrowser.open_new_tab("https://gitlab.com/Alexein/arma-3-mod-cleaner/-/releases")
 
@@ -69,8 +79,6 @@ def extraSelect(event = None):
     else:
         unsubOneButton.config(state= tk.DISABLED)
         saveToFileButton.config(state= tk.DISABLED)
-
-#end debug
 
 def emptyHtmls():
     messagebox.showerror("Error", "No modlists found.")
@@ -89,7 +97,6 @@ def refresh():
             modsNotFound()
         modlistList.delete(0, tk.END)
         neededModsList.delete(0, tk.END)
-        extraModsList.delete(0, tk.END)
         extraSelect()
         neededSelect()
         if len(modlists) == 0: emptyHtmls()
@@ -107,7 +114,7 @@ def refresh():
                 neededModsList.insert(tk.END, "")
                 neededModsList.insert(tk.END, "                               *Whitelist*")
                 for whitelistedMod in sorted(whitelist.keys()): neededModsList.insert(tk.END, "*" + whitelistedMod)
-            for extraMod in sorted(extraMods.keys(), key = str.lower): extraModsList.insert(tk.END, extraMod)
+            showExtra()
             #for neededdlc
 
 #main window
@@ -118,20 +125,22 @@ mainWindow.tk.call("wm", "iconphoto", mainWindow._w, icon)
 mainWindow.rowconfigure(0, weight= 1)
 mainWindow.columnconfigure(0, weight= 1)
 mainFrame = ttk.Frame(mainWindow, padding= "20 20 20 5")
-mainFrame.rowconfigure([*range(8)], weight = 1)
-mainFrame.columnconfigure([*range(4)], weight = 1)
-mainFrame.columnconfigure([0, 3], uniform= "x")
-mainFrame.grid()
+mainFrame.rowconfigure([*range(9)], weight = 1)
+mainFrame.columnconfigure([0, 3], weight= 1, uniform= "x")
+mainFrame.columnconfigure([1,2], weight= 3)
+mainFrame.grid(sticky= tk.NSEW)
 
 #modlists
 modlistLabel = ttk.Label(mainFrame, text= "Modlists")
 modlistLabel.grid(row= 0, column= 0)
 modlistFrame = ttk.Frame(mainFrame, relief= tk.GROOVE, borderwidth= 3)
-modlistFrame.grid(row=1, column= 0, rowspan= 2, sticky= tk.N)
+modlistFrame.grid(row=1, column= 0, rowspan= 2, sticky= tk.NSEW)
+modlistFrame.columnconfigure(0, weight= 2)
+modlistFrame.rowconfigure(0, weight= 2)
 modlistYScroll = ttk.Scrollbar(modlistFrame, orient= tk.VERTICAL)
 modlistYScroll.grid(row = 0, column= 1, sticky= tk.NS)
 modlistList = tk.Listbox(modlistFrame, activestyle= "none", height = 7, width= 28, listvariable= tk.Variable(value= modlists), yscrollcommand= modlistYScroll.set, exportselection= 0)
-modlistList.grid(row= 0, column= 0)
+modlistList.grid(row= 0, column= 0, sticky= tk.NSEW)
 modlistYScroll['command'] = modlistList.yview()
 
 #modlists buttons
@@ -146,19 +155,21 @@ changeModPathButton = ttk.Button(modButtonsFrame, text= "Change mod directory", 
 changeModPathButton.grid(row= 5, column= 0,pady= (10), sticky= tk.EW)
 
 #progress bar
-progress = tk.IntVar()
-progressBar = ttk.Progressbar(mainFrame, mode= "determinate", variable= progress)
-progressBar.grid(row= 7, column= 0, sticky= tk.EW)
+#progress = tk.IntVar()
+#progressBar = ttk.Progressbar(mainFrame, mode= "determinate", variable= progress)
+#progressBar.grid(row= 7, column= 0, sticky= tk.EW)
 
 #needed mods list
 neededModsLabel = ttk.Label(mainFrame, text= "Needed Mods")
 neededModsLabel.grid(row= 0, column= 1, padx= (20, 10))
 neededModsFrame = ttk.Frame(mainFrame, relief= tk.GROOVE, borderwidth= 3)
 neededModsFrame.grid(row=1, column= 1, rowspan= 4, sticky= tk.NSEW, padx= (20, 20))
+neededModsFrame.rowconfigure(0, weight= 1)
+neededModsFrame.columnconfigure(0, weight= 1)
 neededModsYScroll = ttk.Scrollbar(neededModsFrame, orient= tk.VERTICAL)
 neededModsYScroll.grid(row = 0, column= 1, sticky= tk.NS)
 neededModsList = tk.Listbox(neededModsFrame, activestyle= "none", height = 16, width= 40, listvariable= tk.Variable(value= neededMods), yscrollcommand= neededModsYScroll.set, exportselection= 0, selectmode= tk.MULTIPLE)
-neededModsList.grid(row= 0, column= 0)
+neededModsList.grid(row= 0, column= 0, sticky= tk.NSEW)
 neededModsYScroll["command"] = neededModsList.yview
 
 #extra mods list
@@ -166,10 +177,12 @@ extraModsLabel = ttk.Label(mainFrame, text= "Extra Mods")
 extraModsLabel.grid(row= 0, column= 2, padx= (10, 20))
 extraModsFrame = ttk.Frame(mainFrame, relief= tk.GROOVE, borderwidth= 3)
 extraModsFrame.grid(row=1, column= 2, rowspan= 4, sticky= tk.NSEW, padx= (0, 20))
+extraModsFrame.columnconfigure(0, weight= 1)
+extraModsFrame.rowconfigure(0, weight=1)
 extraModsYScroll = ttk.Scrollbar(extraModsFrame, orient= tk.VERTICAL)
 extraModsYScroll.grid(row = 0, column= 1, sticky= tk.NS)
 extraModsList = tk.Listbox(extraModsFrame, activestyle= "none", height = 16, width= 40, listvariable= tk.Variable(value= extraMods), yscrollcommand= extraModsYScroll.set, exportselection= 0, selectmode= tk.MULTIPLE)
-extraModsList.grid(row= 0, column= 0)
+extraModsList.grid(row= 0, column= 0, sticky= tk.NSEW)
 extraModsYScroll["command"] = extraModsList.yview
 
 #extra mods buttons
@@ -183,7 +196,10 @@ unsubAllButton.grid(row= 1, column= 0, sticky= tk.EW, pady= (0, 20))
 saveToFileButton = ttk.Button(extraButtonsFrame, text= "Whitelist extra mods", command= saveToWhitelist, state= tk.DISABLED)
 saveToFileButton.grid(row= 2, column= 0, sticky= tk.EW, pady= (0, 20))
 removeFromFileButton = ttk.Button(extraButtonsFrame, text= "Remove from whitelist", command= removeFromWhitelist, state= tk.DISABLED)
-removeFromFileButton.grid(row= 3, column= 0, sticky= tk.EW)
+removeFromFileButton.grid(row= 3, column= 0, sticky= tk.EW, pady= (0, 20))
+showInvalidVar = tk.BooleanVar(value= False)
+showInvalidCheck = ttk.Checkbutton(extraButtonsFrame, text= "Show invalid mods", command= showExtra, variable= showInvalidVar)
+showInvalidCheck.grid(row= 4, column= 0)
 
 #mods buttons events
 neededModsList.bind("<<ListboxSelect>>", neededSelect)
@@ -192,7 +208,7 @@ extraModsList.bind("<<ListboxSelect>>", extraSelect)
 #additional buttons
 checkUpdateButton = ttk.Button(mainFrame, text= "Check for updates", command= checkUpdate)
 checkUpdateButton.grid(row= 4, column= 3, sticky= tk.S + tk.EW)
-checkSiteLabel = ttk.Label(mainFrame, text= "Arma 3 Mod Cleaner by Alexein v0.9.1")
+checkSiteLabel = ttk.Label(mainFrame, text= "Arma 3 Mod Cleaner by Alexein v0.9.3")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.S + tk.E)
 
 refresh()

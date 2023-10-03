@@ -1,3 +1,9 @@
+v0.9.3
+    add ui scaling
+    add checkbox to ignore invalid modlists(mostly mission files and acre addons)
+    add default paths for windows and linux
+    add .sh launcher for linux
+
 v0.9.1
     add parsing of .preset2 modlists
     whitelisted mods are now marked with a *

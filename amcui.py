@@ -16,6 +16,7 @@ from tkinter import messagebox
 from tkinter import filedialog
 import webbrowser
 import amcio
+import amcsteam
 
 from os import name
 if name == "nt":                                 #set for high dpi if run on windows
@@ -23,6 +24,7 @@ if name == "nt":                                 #set for high dpi if run on win
     windll.shcore.SetProcessDpiAwareness(1)
 
 modlists = []
+unsubbed = []
 neededMods = {}
 extraMods = {}
 whitelist = {}
@@ -50,11 +52,30 @@ def removeFromWhitelist():
     amcio.removeFromWhitelist(removeList)
     refresh()    
 
+def unsub(unsubList):
+    global unsubbed
+    try:
+        amcsteam.unsubscribe(unsubList)
+        unsubSuccess()
+        unsubbed.extend(unsubList)
+        refresh()
+    except FileExistsError:
+        steamError()
+
 def unsubOne():
-    messagebox.showerror("Error", "Not yet implemented")
+    global extraMods
+    unsubList = []
+    for index in extraModsList.curselection():
+        key = extraModsList.get(index)
+        if not key.startswith(("+", "*")):   unsubList.append(extraMods.get(key))
+    unsub(unsubList)
 
 def unsubAll():
-    messagebox.showerror("Error", "Not yet implemented")
+    global extraMods
+    unsubList = []
+    for key in extraMods.keys():
+        if not key.startswith(("+", "*")):   unsubList.append(extraMods.get(key))
+    unsub(unsubList)
 
 def showExtra():
     global extraMods
@@ -86,9 +107,16 @@ def emptyHtmls():
 def modsNotFound():
     messagebox.showerror("Error", "Mod folder not found, manual setting required.")
 
+def steamError():
+    messagebox.showerror("Error", "Steam not running or other problem detected.")
+
+def unsubSuccess():
+    messagebox.showinfo("", "Successfully unsubscribed, please wait for Steam to remove the data.")
+
 def refresh():
         """scan for modlist files and the contained mods"""
         global extraMods
+        global unsubbed
         global modlists
         try:
             amcio.getSettings()
@@ -103,7 +131,7 @@ def refresh():
         else:
             neededMods, neededDlcs = amcio.readModlists(modlists)
             whitelist = amcio.readWhitelist()
-            extraMods = amcio.searchMods(neededMods.values(), whitelist.values())
+            extraMods = amcio.searchMods(neededMods.values(), whitelist.values(), unsubbed)
             for html in sorted(modlists, key= str.lower): modlistList.insert(tk.END, html.removesuffix(".html").removesuffix(".preset2"))
                 #progress.set(int(((modlists.index(html)+1)/len(modlists))*100))
             for neededMod in sorted(neededMods.keys(), key= str.lower):
@@ -209,7 +237,7 @@ extraModsList.bind("<<ListboxSelect>>", extraSelect)
 #additional buttons
 checkUpdateButton = ttk.Button(mainFrame, text= "Check for updates", command= checkUpdate)
 checkUpdateButton.grid(row= 4, column= 3, sticky= tk.S + tk.EW)
-checkSiteLabel = ttk.Label(mainFrame, text= "Arma 3 Mod Cleaner by Alexein v0.9.3")
+checkSiteLabel = ttk.Label(mainFrame, text= "Arma 3 Mod Cleaner by Alexein v0.9.4")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.S + tk.E)
 
 refresh()

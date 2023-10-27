@@ -1,3 +1,7 @@
+v0.9.4
+    add steam integration
+    track unsubscribed mods with a +
+
 v0.9.3
     add ui scaling
     add checkbox to ignore invalid modlists(mostly mission files and acre addons)

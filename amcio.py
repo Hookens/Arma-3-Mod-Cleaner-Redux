@@ -96,7 +96,7 @@ def readModlists(htmls):
                     if j < 4:   pass
                     elif  modlists[i][j].startswith('    <id>steam:'):
                         keys.append(modlists[i][j].removeprefix("    <id>steam:").split("<")[0])
-    mods.update(searchMods(keys, [], searchNeeded = True))
+    mods.update(searchMods(keys, [], [], searchNeeded = True))
     return mods, dlcs
 
 def readWhitelist():
@@ -109,7 +109,7 @@ def readWhitelist():
                 whitelist.update({whitelistL[i].split("/")[0]: whitelistL[i].split("/")[1].rstrip()}) 
     return whitelist
 
-def searchMods(mods, whitelist, searchNeeded = False):
+def searchMods(mods, whitelist, unsubbed, searchNeeded = False):
     """check mod folder and return needed or extra mods"""
     allModFolders = []
     allMods = {}
@@ -130,7 +130,9 @@ def searchMods(mods, whitelist, searchNeeded = False):
             with open(os.path.join(modPath, mod + os.sep + "meta.cpp")) as cpp:
                 content = cpp.readlines()
                 modName = content[2]
-                allMods.update({modName.split('"')[1]: mod})
+                cleanName = modName.split('"')[1]
+                if mod in unsubbed:   cleanName = "+" + cleanName
+                allMods.update({cleanName: mod})
         except Exception:
             if searchNeeded:   pass
             else:   allMods.update({"*INVALID* " + mod: mod})

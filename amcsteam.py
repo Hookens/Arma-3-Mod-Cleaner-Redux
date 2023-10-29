@@ -13,12 +13,11 @@
 #using the SteamworksPy API https://github.com/philippj/SteamworksPy licensed undet MIT License
 from steamworks import STEAMWORKS
 steamworks = STEAMWORKS()
+steamworks.initialize()
 
 def callback(result):
     print(result)
 
 def unsubscribe(mods):
-    steamworks.initialize()
     for mod in mods:
         steamworks.Workshop.UnsubscribeItem(int(mod), callback)
-    steamworks.unload()

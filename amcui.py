@@ -16,7 +16,11 @@ from tkinter import messagebox
 from tkinter import filedialog
 import webbrowser
 import amcio
-import amcsteam
+try:
+    import amcsteam
+except Exception:
+    messagebox.showerror("Error", "Steam is not running")
+    exit()
 
 from os import name
 if name == "nt":                                 #set for high dpi if run on windows

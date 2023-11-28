@@ -17,9 +17,14 @@ Some Linux distributions lack the `tk` library so if you encounter problems runn
 
 ## Visuals 
 
-![default screen](/images/Standard.jpg "default screen")  default screen  
-![when selecting a mod for unsubscription](/images/Mod_selected.jpg "when selecting a mod for unsubscription")  when selecting a mod for unsubscription  
-![after a successful unsubscription](/images/Mod_unsubbed.jpg "after a successful unsubscription")  after a successful unsubscription
+**Default screen**  
+![default screen](/images/Standard.jpg)  
+
+**When selecting a mod for unsubscription**  
+![when selecting a mod for unsubscription](/images/Mod_selected.jpg) 
+ 
+**after a successful unsubscription**  
+![after a successful unsubscription](/images/Mod_unsubbed.jpg)  
 
 ## Usage
 

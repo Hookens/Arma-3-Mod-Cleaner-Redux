@@ -17,13 +17,13 @@ Some Linux distributions lack the `tk` library so if you encounter problems runn
 
 ## Visuals 
 
-**Default screen**  
+- **Default screen**  
 ![default screen](/images/Standard.jpg)  
 
-**When selecting a mod for unsubscription**  
+- **When selecting a mod for unsubscription**  
 ![when selecting a mod for unsubscription](/images/Mod_selected.jpg) 
- 
-**after a successful unsubscription**  
+
+- **After a successful unsubscription**  
 ![after a successful unsubscription](/images/Mod_unsubbed.jpg)  
 
 ## Usage

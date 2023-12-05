@@ -8,7 +8,17 @@ The program detects the mods not used in any modlist for an easy removal. It che
 
 ## Installation
 
-Download the latest release from [here](https://gitlab.com/Alexein/arma-3-mod-cleaner/-/releases) and unpack it in a folder.  
+Download the latest release from [here](https://gitlab.com/Alexein/arma-3-mod-cleaner/-/releases) and unpack it in a folder.
+
+**For Windows**
+- make sure you have [python](https://www.python.org/downloads/) installed 
+- double click on  `Arma 3 Mod Cleaner.pyw`
+
+**For Linux** 
+- make `Arma 3 Mod Cleaner.sh` executable
+`right click` -> `properties` -> `permissions`-> `allow executing file`
+- double click on  `Arma 3 Mod Cleaner.sh`
+
 Some Linux distributions lack the `tk` library so if you encounter problems running it you will have to install it through your package manager:
 - for debian based distros  
 `sudo apt install python-tk`  

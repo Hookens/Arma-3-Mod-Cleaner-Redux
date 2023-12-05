@@ -241,7 +241,7 @@ extraModsList.bind("<<ListboxSelect>>", extraSelect)
 #additional buttons
 checkUpdateButton = ttk.Button(mainFrame, text= "Check for updates", command= checkUpdate)
 checkUpdateButton.grid(row= 4, column= 3, sticky= tk.S + tk.EW)
-checkSiteLabel = ttk.Label(mainFrame, text= "Arma 3 Mod Cleaner by Alexein v0.9.4")
+checkSiteLabel = ttk.Label(mainFrame, text= "Arma 3 Mod Cleaner by Alexein v0.9.5")
 checkSiteLabel.grid(row= 7, column= 3, sticky= tk.S + tk.E)
 
 refresh()

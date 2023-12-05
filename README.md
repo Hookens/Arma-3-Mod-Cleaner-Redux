@@ -35,3 +35,7 @@ The `show invalid mods` will let you see the mods that don't follow usual struct
 ## License
 
 This program and its components are licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html)
+
+## Contacts
+
+If you need help or just want to drop in and say hi, visit my unit's [discord](https://discord.gg/WbKnDrSsk7)

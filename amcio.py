@@ -1,15 +1,20 @@
 # Arma 3 Mod Cleaner
 # Copyright (C) 2023  Alexein https://gitlab.com/Alexein
+# Modified by Hookens in 2025 https://github.com/Hookens
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import os
 
 listPath = ""
@@ -84,7 +89,7 @@ def readModlists(htmls):
             modlists.append(html.readlines())
             if modlists[i][1] == "<html>\n":
                 for j in range(len(modlists[i])):
-                    if j < 89:   pass 
+                    if j < 88:   pass 
                     elif modlists[i][j].startswith('          <td data-type="DisplayName">'):
                         key = modlists[i][j].removeprefix('          <td data-type="DisplayName">').split("<")[0]
                     elif modlists[i][j].startswith('            <a href="'):
@@ -121,7 +126,8 @@ def searchMods(mods, whitelist, unsubbed, searchNeeded = False):
         for mod in mods:
             if mod in allModFolders:  allModFolders.remove(mod)
     else:
-        for mod in allModFolders:
+        originalList = allModFolders.copy()
+        for mod in originalList:
             if mod not in mods:   allModFolders.remove(mod)
     for mod in whitelist:
         if mod in allModFolders:  allModFolders.remove(mod)

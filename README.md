@@ -1,6 +1,6 @@
-# Arma Mod Cleaner
+# Arma 3 Mod Cleaner Redux
 
-Arma Mod Cleaner is a tool for tracking and removing unused mods from Arma 3.
+Arma 3 Mod Cleaner Redux is a fork of [Alexein](https://gitlab.com/Alexein)'s [Arma Mod cleaner](https://gitlab.com/Alexein/arma-3-mod-cleaner).
 
 ## Description
 
@@ -8,17 +8,7 @@ The program detects the mods not used in any modlist for an easy removal. It che
 
 ## Installation
 
-Download the latest release from [here](https://gitlab.com/Alexein/arma-3-mod-cleaner/-/releases) and unpack it in a folder.
-
-**For Windows**
-- make sure you have [python](https://www.python.org/downloads/) installed 
-- double click on  `Arma 3 Mod Cleaner.pyw`
-
-**For Linux** 
-- make `Arma 3 Mod Cleaner.sh` executable
-`right click` -> `properties` -> `permissions`-> `allow executing file`
-- double click on  `Arma 3 Mod Cleaner.sh`
-
+Download the latest release from [here](https://github.com/Hookens/Arma-3-Mod-Cleaner-Redux/releases) and unpack it in a folder.  
 Some Linux distributions lack the `tk` library so if you encounter problems running it you will have to install it through your package manager:
 - for debian based distros  
 `sudo apt install python-tk`  
@@ -45,7 +35,3 @@ The `show invalid mods` will let you see the mods that don't follow usual struct
 ## License
 
 This program and its components are licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html)
-
-## Contacts
-
-If you need help or just want to drop in and say hi, visit my unit's [discord](https://discord.gg/WbKnDrSsk7)
